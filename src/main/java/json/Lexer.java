@@ -1,6 +1,7 @@
 package json;
 
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.BufferedReader;
 import java.io.PushbackReader;
 
@@ -13,11 +14,11 @@ import java.io.IOException;
 public class Lexer {
     
     private final PushbackReader reader;
-    private final List<Token> tokens;
-    
+    private List<Token> tokens;
+
     private Lexer(PushbackReader reader) {
         this.reader = reader;
-        this.tokens = new ArrayList<>();
+        this.tokens = List.of();
     }
 
     public static Lexer of(Reader reader) {
@@ -25,7 +26,17 @@ public class Lexer {
         return new Lexer(new PushbackReader(new BufferedReader(reader)));
     }
 
+    public static Lexer of(String input) {
+        input = Objects.requireNonNull(input);
+        return Lexer.of(new StringReader(input));
+    }
+
+    public List<Token> getTokens() {
+        return this.tokens;
+    }
+
     public List<Token> tokenize() throws IOException {
+        List<Token> tokens = new ArrayList<>();
         while (true) {
             int val = next();
             if (val == -1) break;
@@ -53,6 +64,7 @@ public class Lexer {
             tokens.add(token);
         }
         tokens.add(Token.EOF);
+        this.tokens = List.copyOf(tokens);
         return tokens;
     }
 

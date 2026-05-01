@@ -43,8 +43,8 @@ public class Token {
     public final static Token SQUARE_CLOSE = new Token(TokenType.SQUARE_CLOSE, "]");
     public final static Token EOF = new Token(TokenType.EOF, "0");
 
-    private TokenType type;
-    private Object value;
+    private final TokenType type;
+    private final Object value;
 
     private Token(TokenType type, Object value) {
         this.type = type;
@@ -93,5 +93,13 @@ public class Token {
     @Override
     public int hashCode() {
         return Objects.hash(type, value);
+    }
+
+    public TokenType getTokenType() {
+        return this.type;
+    }
+
+    public Object getValue() {
+        return this.value;
     }
 }
