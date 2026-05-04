@@ -29,4 +29,5 @@ public class JSONArrayTest {
         assertEquals("value", parsed.get(2));
         assertEquals(JSONObject.NULL, parsed.get(3));
     }
+
 }
